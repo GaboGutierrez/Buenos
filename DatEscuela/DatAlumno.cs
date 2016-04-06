@@ -8,7 +8,6 @@ namespace Gabo.Escuela.Data
 {
     public class DatAlumno : DatAbstracta
     {
-
-        //crear metodos pero primero crear los StoredProcedure en SQL server
+        
     }
 }
