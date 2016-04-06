@@ -8,6 +8,6 @@ namespace Gabo.Escuela.Data
 {
     public class DatAlumno : DatAbstracta
     {
-        
+
     }
 }
