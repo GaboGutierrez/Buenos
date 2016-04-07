@@ -38,12 +38,16 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Sexo]">
                         <ItemTemplate>
-                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("Sexo") %>'></asp:Label>
+                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("Sexo.Nombre") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Fecha de Registro]">
                         <ItemTemplate>
+<<<<<<< HEAD
                             <asp:Label ID="Label3" runat="server" Text='<%# Bind("Registro", "{0:dd/MM/yyyy}") %>'></asp:Label>
+=======
+                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("FechaRegistro", "{0:dd/MM/yyyy}") %>'></asp:Label>
+>>>>>>> origin/master
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Correo electrónico]">
@@ -58,22 +62,22 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Documentos]">
                         <ItemTemplate>
-                            <asp:Label ID="Label6" runat="server" Text='<%# Bind("Documento") %>'></asp:Label>
+                            <asp:Label ID="Label6" runat="server" Text='<%# Bind("Documento.Id") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Tipo de documento]">
                         <ItemTemplate>
-                            <asp:Label ID="Label7" runat="server" Text='<%# Bind("DocTipo") %>'></asp:Label>
+                            <asp:Label ID="Label7" runat="server" Text='<%# Bind("Documento.Tipo") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Aprobado]">
                         <ItemTemplate>
-                            <asp:Label ID="Label8" runat="server" Text='<%# Bind("Aprobado") %>'></asp:Label>
+                            <asp:Label ID="Label8" runat="server" Text='<%# Bind("Documento.Aprobado") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Estatus]">
                         <ItemTemplate>
-                            <asp:Label ID="Label9" runat="server" Text='<%# Bind("Estatus") %>'></asp:Label>
+                            <asp:Label ID="Label9" runat="server" Text='<%# Bind("ExamPsico.Estatus") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Id de Etapa]">
@@ -83,32 +87,36 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Nombre de Etapa]">
                         <ItemTemplate>
-                            <asp:Label ID="Label11" runat="server" Text='<%# Bind("EtapaNombre") %>'></asp:Label>
+                            <asp:Label ID="Label11" runat="server" Text='<%# Bind("Etapa.Nombre") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Calificacion]">
                         <ItemTemplate>
-                            <asp:Label ID="Label12" runat="server" Text='<%# Bind("calificacion") %>'></asp:Label>
+                            <asp:Label ID="Label12" runat="server" Text='<%# Bind("Examen.Calificacion") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Aprobado]">
                         <ItemTemplate>
-                            <asp:Label ID="Label13" runat="server" Text='<%# Bind("Aprobado") %>'></asp:Label>
+                            <asp:Label ID="Label13" runat="server" Text='<%# Bind("Examen.Aprobado") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Fecha de Pago]">
                         <ItemTemplate>
+<<<<<<< HEAD
                             <asp:Label ID="Label14" runat="server" Text='<%# Bind("FechaPago", "{0:dd/MM/yyyy}") %>'></asp:Label>
+=======
+                            <asp:Label ID="Label14" runat="server" Text='<%# Bind("Pago.FechaPago", "{0:dd/MM/yyyy}") %>'></asp:Label>
+>>>>>>> origin/master
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Cantidad de Pago]">
                         <ItemTemplate>
-                            <asp:Label ID="Label15" runat="server" Text='<%# Bind("Cantidad", "{0:C}") %>'></asp:Label>
+                            <asp:Label ID="Label15" runat="server" Text='<%# Bind("Pago.Cantidad", "{0:C}") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Tipo de Pago]">
                         <ItemTemplate>
-                            <asp:Label ID="Label16" runat="server" Text='<%# Bind("PagoNombre") %>'></asp:Label>
+                            <asp:Label ID="Label16" runat="server" Text='<%# Bind("Pago.TipoPago.Nombre") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
