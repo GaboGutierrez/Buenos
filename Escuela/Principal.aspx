@@ -28,6 +28,12 @@
                 </div>
             </div>
         </div>
+        <div>   
+            <asp:GridView ID="gvEscuela" runat="server">
+
+            </asp:GridView>
+
+        </div>
         <%-- Primer modal para el registro --%>
         <!-- Modal -->
         <div class="modal fade" id="modRegistro" role="dialog" style="width: 1000px;">
@@ -252,7 +258,7 @@
                                         <tr>
                                             <td>
                                                 <asp:Label Text="Pregunta 4:" runat="server" />
-                                                <asp:TextBox runat="server" ID="txtRespuesta$" Placeholder="Inserta tu respuesta:" CssClass="form-control" />
+                                                <asp:TextBox runat="server" ID="txtRespuestaCuatro" Placeholder="Inserta tu respuesta:" CssClass="form-control" />
                                             </td>
                                         </tr>
                                     </table>
