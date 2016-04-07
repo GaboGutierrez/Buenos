@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gabo.Escuela.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,6 @@ public partial class Principal : System.Web.UI.Page
         if (!IsPostBack)
         {
             CargarGrid();
-
         }
     }
 
@@ -20,8 +20,9 @@ public partial class Principal : System.Web.UI.Page
     {
         try
         {
+            gvEscuela.DataSource = new BusAlumno().Mostrar();
+            gvEscuela.DataBind();
 
-            //gvEscolar.DataBind();
         }
         catch (Exception ex)
         {

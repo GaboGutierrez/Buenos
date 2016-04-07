@@ -13,6 +13,7 @@ namespace Gabo.Escuela.Business.Entidad
         public string Paterno { get; set; }
         public string Materno { get; set; }
         public DateTime Nacimiento { get; set; }
+        public int SexoId { get; set; }
         private EntSexo sexo;
         public EntSexo Sexo
         {
@@ -33,55 +34,119 @@ namespace Gabo.Escuela.Business.Entidad
         public string Correo { get; set; }
         public double Promedio { get; set; }
         public string Matricula { get; set; }
-        private EntExamPsico ExamPsico;
-        public EntExamPsico exampsico
+        public int DocumentoId { get; set; }
+        private EntDocumentos documento;
+
+        public EntDocumentos Documento
         {
             get
             {
-                if (exampsico == null)
-                    exampsico = new EntExamPsico();
-                return ExamPsico;
+                if (documento == null)
+                    documento = new EntDocumentos();
+                return documento;
             }
             set
             {
-                if (exampsico == null)
-                    exampsico = new EntExamPsico();
-                ExamPsico = value;
+                if (documento == null)
+                    documento = new EntDocumentos();
+                documento = value;
             }
         }
-        private EntEtapa Etapa;
-        public EntEtapa etapa
+
+
+        public int ExamenPsicoId { get; set; }
+        private EntExamPsico examPsico;
+        public EntExamPsico ExamPsico
+        {
+            get
+            {
+                if (examPsico == null)
+                    examPsico = new EntExamPsico();
+                return examPsico;
+            }
+            set
+            {
+                if (examPsico == null)
+                    examPsico = new EntExamPsico();
+                examPsico = value;
+            }
+        }
+        public int EtapaId { get; set; }
+        private EntEtapa etapa;
+        public EntEtapa Etapa
         {
             get
             {
                 if (etapa == null)
                     etapa = new EntEtapa();
-                return Etapa;
+                return etapa;
             }
             set
             {
                 if (etapa == null)
                     etapa = new EntEtapa();
-                Etapa = value;
+                etapa = value;
             }
         }
-        private EntPerfil Perfil;
-        public EntPerfil perfil
+        public int PerfilId { get; set; }
+        private EntPerfil perfil;
+        public EntPerfil Perfil
         {
             get
             {
                 if (perfil == null)
                     perfil = new EntPerfil();
-                return Perfil;
+                return perfil;
             }
             set
             {
                 if (perfil == null)
                     perfil = new EntPerfil();
-                Perfil = value;
+                perfil = value;
             }
         }
         public string Password { get; set; }
+
+
+        public int PagoId { get; set; }
+        private EntPago pago;
+
+        public EntPago Pago
+        {
+            get
+            {
+                if (pago == null)
+                    pago = new EntPago();
+                return pago;
+            }
+            set
+            {
+                if (pago == null)
+                    pago = new EntPago();
+                pago = value;
+            }
+        }
+
+
+        public int ExamenId { get; set; }
+        private EntExamen examen;
+
+        public EntExamen Examen
+        {
+            get
+            {
+                if (examen == null)
+                    examen = new EntExamen();
+                return examen;
+            }
+            set
+            {
+                if (examen == null)
+                    examen = new EntExamen();
+                examen = value;
+            }
+        }
+
     }
     public class EntSexo
     {
@@ -125,6 +190,7 @@ namespace Gabo.Escuela.Business.Entidad
         public DateTime FechaPago { get; set; }
         public double Cantidad { get; set; }
         public string Descripcion { get; set; }
+        public int TipoPagoId { get; set; }
         private EntTipoPago TipoPago;
         public EntTipoPago tipopago
         {
