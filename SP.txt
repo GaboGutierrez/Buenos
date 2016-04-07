@@ -1,0 +1,514 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spActualizarAlumnos]
+(
+      @Id INT,
+      @Nombre VARCHAR(50) ,
+      @Paterno VARCHAR(50) ,
+      @Materno VARCHAR(50) ,
+      @FechaNacimiento DATETIME ,
+      @SexoId INT ,
+      @FechaRegistro DATETIME ,
+      @Mail NVARCHAR(MAX) ,
+      @PromedioGeneral DECIMAL ,
+      @Matricula VARCHAR(30) ,
+      @ExamenPsicometricoId INT ,
+      @EtapaId INT ,
+      @PefilId INT ,
+      @Contraseña NVARCHAR(MAX)
+
+)
+AS 
+BEGIN
+UPDATE dbo.ALUMNO
+SET  
+ALUM_NOMB=@Nombre,
+ALUM_APAT=@Paterno,
+ALUM_AMAT=@Materno,
+ALUM_FNAC=@FechaNacimiento,
+ALUM_SEXO_ID=@SexoId,
+ALUM_FREG=@FechaRegistro,
+ALUM_MAIL=@Mail,
+ALUM_PRGR=@PromedioGeneral,
+ALUM_MATR=@Matricula,
+ALUM_EXPS_ID=@ExamenPsicometricoId,
+ALUM_ETAP_ID=@EtapaId,
+ALUM_PERF_ID=@PefilId,
+ALUM_PASS=@Contraseña
+WHERE ALUM_ID=@Id
+END;
+
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spBuscarAlumnoID] ( @Id INT )
+AS
+    BEGIN
+
+        SELECT  ALUM_ID ,
+                ALUM_NOMB ,
+                ALUM_APAT ,
+                ALUM_AMAT ,
+                ALUM_FNAC ,
+                ALUM_SEXO_ID ,
+                SEXO_ID ,
+                SEXO_NOMB ,
+                ALUM_FREG ,
+                ALUM_MAIL ,
+                ALUM_PRGR ,
+                ALUM_MATR ,
+                ALUM_EXPS_ID ,
+                EXPS_ID ,
+                EXPS_RESP_UNO ,
+                EXPS_RESP_DOS ,
+                EXPS_RESP_TRES ,
+                EXPS_RESP_CUAT ,
+                EXPS_FECH_APLI ,
+                EXPS_ESTA ,
+                ALUM_ETAP_ID ,
+                ETAP_ID ,
+                ETAP_NOMB ,
+                ETAP_DESC ,
+                ALUM_PERF_ID ,
+                PERF_ID ,
+                PERF_NOMB ,
+                ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                INNER JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID
+				WHERE ALUM_ID=@Id
+    END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spEliminarAlumno]
+(
+@Id INT
+)
+AS
+BEGIN
+DELETE FROM dbo.ALUMNO WHERE ALUM_ID=@Id;
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spInsertarAlumnos]
+    (
+      @Nombre VARCHAR(50) ,
+      @Paterno VARCHAR(50) ,
+      @Materno VARCHAR(50) ,
+      @FechaNacimiento DATETIME ,
+      @SexoId INT ,
+      @FechaRegistro DATETIME ,
+      @Mail NVARCHAR(MAX) ,
+      @PromedioGeneral DECIMAL ,
+      @Matricula VARCHAR(30) ,
+      @ExamenPsicometricoId INT ,
+      @EtapaId INT ,
+      @PefilId INT ,
+      @Contraseña NVARCHAR(MAX)
+    )
+AS
+    BEGIN
+        INSERT  INTO dbo.ALUMNO
+                ( ALUM_ID,
+                  ALUM_NOMB,
+                  ALUM_APAT,
+                  ALUM_AMAT,
+                  ALUM_FNAC,
+                  ALUM_SEXO_ID,
+                  ALUM_FREG,
+                  ALUM_MAIL,
+                  ALUM_PRGR,
+                  ALUM_MATR,
+                  ALUM_EXPS_ID,
+                  ALUM_ETAP_ID,
+                  ALUM_PERF_ID,
+                  ALUM_PASS
+				)
+        VALUES  ( ( SELECT  ISNULL(MAX(ALUM_ID) + 1, 1)
+                    FROM    dbo.ALUMNO
+                  ) ,
+                  @Nombre ,
+                  @Paterno ,
+                  @Materno ,
+                  @FechaNacimiento ,
+                  @SexoId ,
+                  @FechaRegistro ,
+                  @Mail ,
+                  @PromedioGeneral ,
+                  @Matricula ,
+                  @ExamenPsicometricoId ,
+                  @EtapaId ,
+                  @PefilId ,
+                  @Contraseña
+
+				);
+    END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spInsertarPago]
+(
+@AlumnoId INT,
+@FechaPago DATE,
+@Cantidad DECIMAL(10,2),
+@Descripcion NVARCHAR(MAX),
+@TipoPagoId INT
+
+)
+AS
+BEGIN
+INSERT INTO dbo.PAGOS
+        ( PAGO_ID ,
+          PAGO_ALUM_ID ,
+          PAGO_FECH ,
+          PAGO_CANT ,
+          PAGO_DESC ,
+          PAGO_TIPO_PAGO_ID
+        )
+VALUES  (
+( SELECT  ISNULL(MAX(PAGO_ID) + 1, 1)
+                    FROM    dbo.PAGOS
+                  ) ,
+				  
+				  @AlumnoId,
+				  @FechaPago,
+				  @Cantidad,
+				  @Descripcion,
+				  @TipoPagoId
+
+        )
+		END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- exec spMostrarAlumno
+CREATE PROCEDURE [spMostrarAlumno]
+AS
+    BEGIN	
+        SELECT  ALUM_ID ,
+                ALUM_NOMB ,
+                ALUM_APAT ,
+                ALUM_AMAT ,
+                ALUM_FNAC ,
+                ALUM_SEXO_ID ,
+                SEXO_ID ,
+                SEXO_NOMB ,
+                ALUM_FREG ,
+                ALUM_MAIL ,
+                ALUM_PRGR ,
+                ALUM_MATR ,
+                ISNULL(DOCS_ID, 0) DOCS_ID ,
+                ISNULL(DOCS_ALUM_ID, 0) DOCS_ALUM_ID ,
+                ISNULL(DOCS_NOMB, 'Cargar Doc') DOCS_NOMB ,
+                ISNULL(DOCS_TIPO, '') DOCS_TIPO ,
+                DOCS_APRO ,
+                ISNULL(DOCS_FECH_ALTA, '01/01/1900') DOCS_FECH_ALTA ,
+                ALUM_EXPS_ID ,
+                EXPS_ID ,
+				EXPS_RESP_UNO ,
+                EXPS_RESP_DOS ,
+                EXPS_RESP_TRES ,
+                EXPS_RESP_CUAT ,
+                EXPS_FECH_APLI ,
+                EXPS_ESTA ,
+                ALUM_ETAP_ID ,
+                ETAP_ID ,
+                ETAP_NOMB ,
+                ETAP_DESC ,
+                ISNULL(EXAM_ID, 0) EXAM_ID ,
+                ISNULL(EXAM_ALUM_ID, 0)EXAM_ALUM_ID ,
+                ISNULL(EXAM_RESP_UNO,'') EXAM_RESP_UNO ,
+                ISNULL(EXAM_RESP_DOS,0) EXAM_RESP_DOS,
+                EXAM_RESP_TRES ,
+                ISNULL(EXAM_RESP_CUAT,'01/01/1900') EXAM_RESP_CUAT ,
+                ISNULL(EXAM_FECH_APLI,'01/01/1900') EXAM_FECH_APLI,
+                ISNULL(EXAM_CALI,0)EXAM_CALI ,
+                EXAM_APRO ,
+                ISNULL(PAGO_ID,0) PAGO_ID,
+                ISNULL(PAGO_ALUM_ID,0)PAGO_ALUM_ID ,
+                ISNULL(PAGO_FECH, '01/01/1900')PAGO_FECH ,
+                ISNULL(PAGO_CANT, 0)PAGO_CANT ,
+                ISNULL(PAGO_DESC, '') PAGO_DESC,
+                ISNULL(PAGO_TIPO_PAGO_ID, 0)PAGO_TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_ID, 0)TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_NOMB,'')TIPO_PAGO_NOMB ,
+                ISNULL(TIPO_PAGO_DESC, '')TIPO_PAGO_DESC ,
+                ALUM_PERF_ID ,
+                PERF_ID ,
+                PERF_NOMB ,
+                ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                LEFT JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID
+                LEFT JOIN dbo.DOCUMENTOS ON DOCUMENTOS.DOCS_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.EXAMEN ON EXAMEN.EXAM_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.PAGOS ON PAGOS.PAGO_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.TIPO_PAGOS ON TIPO_PAGOS.TIPO_PAGO_ID = PAGOS.PAGO_TIPO_PAGO_ID;
+    END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerAlumnnos]
+(
+    
+      @Nombre VARCHAR(50) ,
+      @Paterno VARCHAR(50) ,
+      @Materno VARCHAR(50) ,
+      @FechaNacimiento DATETIME ,
+      @SexoId INT ,
+      @FechaRegistro DATETIME ,
+      @Mail NVARCHAR(MAX) ,
+      @PromedioGeneral DECIMAL ,
+      @Matricula VARCHAR(30) ,
+      @ExamenPsicometricoId INT ,
+      @EtapaId INT ,
+      @PerfilId INT 
+    )
+AS
+    BEGIN
+        DECLARE @query NVARCHAR(MAX);
+        SET @query = 'SELECT  ALUMNO.ANIM_ID ,
+SELECT  ALUMNO.ALUM_ID ,
+                ALUMNO.ALUM_NOMB ,
+                ALUMNO.ALUM_APAT ,
+                ALUMNO.ALUM_AMAT ,
+                ALUMNO.ALUM_FNAC ,
+                ALUMNO.ALUM_SEXO_ID ,
+				ALUMNO.SEXO_ID,
+				ALUMNO.SEXO_NOMB,
+				ALUMNO.ALUM_FREG ,
+                ALUMNO.ALLUM_MAIL ,
+                ALUMNO.ALUM_PRGR ,
+                ALUMNO.ALUM_MATR ,
+                ALUMNO.ALUM_EXPS_ID ,
+				EXPS_ID,
+				EXPS_RESP_UNO, 
+				EXPS_RESP_DOS, 
+				EXPS_RESP_TRES, 
+				EXPS_RESP_CUAT, 
+				EXPS_FECH_APLI, 
+				EXPS_ESTA,
+                ALUMNO.ALUM_ETAP_ID ,
+				ETAP_ID,  
+				ETAP_NOMB, 
+				ETAP_DESC,
+                ALUMNO.ALUM_PERF_ID ,
+				PERF_ID, 
+				PERF_NOMB,
+                ALUMNO.ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                INNER JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID;
+WHERE ALUMNO.ALUM_NOMB <> ''''';
+        IF @Nombre <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_NOMB LIKE ''%' + @Nombre
+                    + '%''';
+            END;
+        IF @Paterno <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_APAT = ''%'+ @Paterno 
+            END;
+			IF @Materno <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_AMAT = ''%'+ @Materno; 
+            END;
+			IF @FechaNacimiento<> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_FNAC = ' +  CONVERT(NVARCHAR(30), @FechaNacimiento); 
+            END;
+			IF @SexoId <> 0
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_SEXO_ID = ' +  CONVERT(NVARCHAR(3), @SexoId); 
+            END;
+			IF @FechaRegistro <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_FREG = ' +  CONVERT(NVARCHAR(30), @FechaRegistro); 
+            END;
+			IF	@Mail <> ''
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_SEXO_ID = ''%' + @Mail
+			END;
+			IF	@PromedioGeneral <> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_PRGR = ' + CONVERT(NVARCHAR(10), @PromedioGeneral);
+			END;
+			IF	@Matricula <> ''
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_MATR = ''%' + @Matricula
+			END;
+			IF	@ExamenPsicometricoId<> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_EXPS_ID = ' + CONVERT(NVARCHAR(3), @ExamenPsicometricoId);
+			END;
+			IF	@EtapaId <> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_ETAP_ID = ' + CONVERT(NVARCHAR(3), @EtapaId);
+			END;
+			IF	@PerfilId <> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_PERF_ID = ' + CONVERT(NVARCHAR(3), @PerfilId);
+			END;
+		
+        PRINT ( @query );
+        EXEC (@query);
+    END;
+
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerDocumentos]
+AS 
+BEGIN
+SELECT
+DOCS_ID,
+DOCS_ALUM_ID,
+DOCS_NOMB,
+DOCS_TIPO,
+DOCS_APRO,
+DOCS_FECH_ALTA
+FROM dbo.DOCUMENTOS;
+END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerEtapas]
+AS
+BEGIN
+SELECT
+ETAP_ID,
+ETAP_NOMB,
+ETAP_DESC
+FROM dbo.ETAPAS;
+END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC[spObtenerExamen]
+AS
+BEGIN
+	SELECT
+	EXAM_ID,
+	EXAM_ALUM_ID,
+	EXAM_RESP_UNO,
+	EXAM_RESP_DOS,
+	EXAM_RESP_TRES,
+	EXAM_RESP_CUAT,
+	EXAM_FECH_APLI,
+	EXAM_CALI,
+	EXAM_APRO
+	FROM dbo.EXAMEN;
+END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerExamenPsicometrico]
+AS
+    BEGIN
+        SELECT  
+		EXPS_ID,
+		EXPS_RESP_UNO,
+		EXPS_RESP_DOS,
+		EXPS_RESP_TRES,
+		EXPS_RESP_CUAT,
+		EXPS_FECH_APLI,
+		EXPS_ESTA
+        FROM    dbo.EXAMEN_PSICOMETRICO;
+    END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerPagos]
+AS
+BEGIN
+SELECT
+PAGO_ID,
+PAGO_ALUM_ID,
+PAGO_FECH,
+PAGO_CANT,
+PAGO_DESC,
+PAGO_TIPO_PAGO_ID
+FROM dbo.PAGOS;
+END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerPerfil]
+AS
+BEGIN
+SELECT	
+PERF_ID,
+PERF_NOMB
+FROM dbo.PERFIL;
+END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerSexo]
+AS	
+BEGIN	
+SELECT	
+SEXO_ID,
+SEXO_NOMB
+FROM dbo.SEXO;
+END;	
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerTipoPago]
+AS
+BEGIN
+SELECT
+TIPO_PAGO_ID,
+TIPO_PAGO_NOMB,
+TIPO_PAGO_DESC
+FROM dbo.TIPO_PAGOS;
+
+END;
+
+GO
