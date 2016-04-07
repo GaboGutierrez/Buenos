@@ -28,8 +28,90 @@
                 </div>
             </div>
         </div>
-        <div>   
-            <asp:GridView ID="gvEscuela" runat="server">
+        <div>
+            <asp:GridView ID="gvEscuela" runat="server" AutoGenerateColumns="False">
+                <Columns>
+                    <asp:TemplateField HeaderText="[Nombre]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label1" runat="server" Text='<%# Bind("Nombre") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Sexo]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("Sexo") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Fecha de Registro]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("Registro", "{0:d "dd/MM/yyyy"}") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Correo electrónico]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label4" runat="server" Text='<%# Bind("Correo") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Matricula]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("Matricula") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Documentos]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label6" runat="server" Text='<%# Bind("Documento") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Tipo de documento]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label7" runat="server" Text='<%# Bind("DocTipo") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Aprobado]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label8" runat="server" Text='<%# Bind("Aprobado") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Estatus]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label9" runat="server" Text='<%# Bind("Estatus") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Id de Etapa]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label10" runat="server" Text='<%# Bind("EtapaId") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Nombre de Etapa]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label11" runat="server" Text='<%# Bind("EtapaNombre") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Calificacion]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label12" runat="server" Text='<%# Bind("calificacion") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Aprobado]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label13" runat="server" Text='<%# Bind("Aprobado") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Fecha de Pago]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label14" runat="server" Text='<%# Bind("FechaPago", "{0:d "dd/MM/yyyy"}") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Cantidad de Pago]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label15" runat="server" Text='<%# Bind("Cantidad", "{0:C}") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Tipo de Pago]">
+                        <ItemTemplate>
+                            <asp:Label ID="Label16" runat="server" Text='<%# Bind("PagoNombre") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
 
             </asp:GridView>
 
