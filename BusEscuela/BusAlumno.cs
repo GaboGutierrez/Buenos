@@ -21,8 +21,8 @@ namespace Gabo.Escuela.Business
                 EntAlumno ent = new EntAlumno();
                 ent.Id = Convert.ToInt32(dr["ALUM_ID"]);
                 ent.Nombre = dr["ALUM_NOMB"].ToString(); //
-                ent.Paterno = dr["ALUM_PATE"].ToString();//
-                ent.Materno = dr["ALUM_MATE"].ToString();//
+                ent.Paterno = dr["ALUM_APAT"].ToString();//
+                ent.Materno = dr["ALUM_AMAT"].ToString();//
                 ent.Nacimiento = Convert.ToDateTime(dr["ALUM_FNAC"]);
                 ent.SexoId = Convert.ToInt32(dr["ALUM_SEXO_ID"]);
                 ent.Sexo.Id = Convert.ToInt32(dr["SEXO_ID"]);
@@ -48,7 +48,7 @@ namespace Gabo.Escuela.Business
                 ent.EtapaId = Convert.ToInt32(dr["ALUM_ETAP_ID"]);//
                 ent.Etapa.Id = Convert.ToInt32(dr["ETAP_ID"]);
                 ent.Etapa.Nombre = dr["ETAP_NOMB"].ToString();//
-                ent.Etapa.Descripcion = dr["ETAP_DESC_"].ToString();
+                ent.Etapa.Descripcion = dr["ETAP_DESC"].ToString();
                 ent.Examen.Id = Convert.ToInt32(dr["EXAM_ID"]);
                 ent.Examen.AlumnoId = Convert.ToInt32(dr["EXAM_ALUM_ID"]);
                 ent.Examen.RespUno = dr["EXAM_RESP_UNO"].ToString();
@@ -63,9 +63,9 @@ namespace Gabo.Escuela.Business
                 ent.Pago.FechaPago = Convert.ToDateTime(dr["PAGO_FECH"]);//
                 ent.Pago.Cantidad = Convert.ToDouble(dr["PAGO_CANT"]);//
                 ent.Pago.Descripcion = dr["PAGO_DESC"].ToString();
-                ent.Pago.tipopago.Id = Convert.ToInt32(dr["PAGO_TIPO_PAGO_ID"]);
-                ent.Pago.tipopago.Nombre = dr["TIPO_PAGO_NOMB"].ToString();//
-                ent.Pago.tipopago.Descripcion = dr["TIPO_PAGO_DESC"].ToString();
+                ent.Pago.TipoPago.Id = Convert.ToInt32(dr["PAGO_TIPO_PAGO_ID"]);
+                ent.Pago.TipoPago.Nombre = dr["TIPO_PAGO_NOMB"].ToString();//
+                ent.Pago.TipoPago.Descripcion = dr["TIPO_PAGO_DESC"].ToString();
                 ent.PerfilId = Convert.ToInt32(dr["ALUM_PERF_ID"]);
                 ent.Perfil.Id = Convert.ToInt32(dr["PERF_ID"]);
                 ent.Perfil.Nombre = dr["PERF_NOMB"].ToString();

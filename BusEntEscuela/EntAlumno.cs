@@ -191,20 +191,20 @@ namespace Gabo.Escuela.Business.Entidad
         public double Cantidad { get; set; }
         public string Descripcion { get; set; }
         public int TipoPagoId { get; set; }
-        private EntTipoPago TipoPago;
-        public EntTipoPago tipopago
+        private EntTipoPago tipopago;
+        public EntTipoPago TipoPago
         {
             get
             {
                 if (tipopago == null)
                     tipopago = new EntTipoPago();
-                return TipoPago;
+                return tipopago;
             }
             set
             {
                 if (tipopago == null)
                     tipopago = new EntTipoPago();
-                TipoPago = value;
+                tipopago = value;
             }
         }
     }
