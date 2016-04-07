@@ -21,8 +21,8 @@ namespace Gabo.Escuela.Business
                 EntAlumno ent = new EntAlumno();
                 ent.Id = Convert.ToInt32(dr["ALUM_ID"]);
                 ent.Nombre = dr["ALUM_NOMB"].ToString(); //
-                ent.Paterno = dr["ALUM_PATE"].ToString();//
-                ent.Materno = dr["ALUM_MATE"].ToString();//
+                ent.Paterno = dr["ALUM_APAT"].ToString();//
+                ent.Materno = dr["ALUM_AMAT"].ToString();//
                 ent.Nacimiento = Convert.ToDateTime(dr["ALUM_FNAC"]);
                 ent.SexoId = Convert.ToInt32(dr["ALUM_SEXO_ID"]);
                 ent.Sexo.Id = Convert.ToInt32(dr["SEXO_ID"]);

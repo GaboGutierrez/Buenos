@@ -12,7 +12,8 @@ public partial class Principal : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            CargarGrid();
+            //CargarGrid();
+            CargarGV();
         }
     }
 
@@ -22,6 +23,19 @@ public partial class Principal : System.Web.UI.Page
         {
             gvEscuela.DataSource = new BusAlumno().Mostrar();
             gvEscuela.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            MostrarMensaje(ex.Message);
+        }
+    }
+    private void CargarGV()
+    {
+        try
+        {
+            gvPrueba.DataSource = new BusAlumno().Mostrar();
+            gvPrueba.DataBind();
 
         }
         catch (Exception ex)

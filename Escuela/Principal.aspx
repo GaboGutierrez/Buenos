@@ -43,7 +43,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Fecha de Registro]">
                         <ItemTemplate>
-                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("Registro", "{0:d "dd/MM/yyyy"}") %>'></asp:Label>
+                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("Registro", "{0:dd/MM/yyyy}") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Correo electrónico]">
@@ -98,7 +98,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Fecha de Pago]">
                         <ItemTemplate>
-                            <asp:Label ID="Label14" runat="server" Text='<%# Bind("FechaPago", "{0:d "dd/MM/yyyy"}") %>'></asp:Label>
+                            <asp:Label ID="Label14" runat="server" Text='<%# Bind("FechaPago", "{0:dd/MM/yyyy}") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Cantidad de Pago]">
@@ -412,6 +412,8 @@
                 </div>
             </div>
         </div>
+        <asp:GridView ID="gvPrueba" runat="server">
+        </asp:GridView>
     </form>
 </body>
 </html>
