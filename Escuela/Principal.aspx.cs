@@ -13,6 +13,7 @@ public partial class Principal : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+<<<<<<< HEAD
             CargarGrid();
             LlenarDDLSexo();
             LlenarDDLTipoPago();
@@ -44,6 +45,10 @@ public partial class Principal : System.Web.UI.Page
         catch (Exception ex)
         {
             MostrarMensaje(ex.Message);
+=======
+            //CargarGrid();
+            CargarGV();
+>>>>>>> origin/master
         }
     }
     private void CargarGrid()
@@ -145,6 +150,19 @@ public partial class Principal : System.Web.UI.Page
                 }
                 contador++;
             }
+
+        }
+        catch (Exception ex)
+        {
+            MostrarMensaje(ex.Message);
+        }
+    }
+    private void CargarGV()
+    {
+        try
+        {
+            gvPrueba.DataSource = new BusAlumno().Mostrar();
+            gvPrueba.DataBind();
 
         }
         catch (Exception ex)
