@@ -31,14 +31,14 @@
         <div>
             <asp:GridView ID="gvEscuela" runat="server" AutoGenerateColumns="False">
                 <Columns>
-                    <asp:TemplateField HeaderText="[Nombre]">
+                    <asp:TemplateField HeaderText="[Matricula]">
                         <ItemTemplate>
-                            <asp:Label ID="Label1" runat="server" Text='<%# Bind("Nombre") %>'></asp:Label>
+                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("Matricula") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="[Sexo]">
+                    <asp:TemplateField HeaderText="[Nombre completo]">
                         <ItemTemplate>
-                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("Sexo.Nombre") %>'></asp:Label>
+                            <asp:Label ID="Label1" runat="server" Text='<%# Bind("Nombre") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Fecha de Registro]">
@@ -51,12 +51,32 @@
                             <asp:Label ID="Label4" runat="server" Text='<%# Bind("Correo") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="[Matricula]">
+                    <asp:TemplateField HeaderText="[Examen Psicométrico]">
                         <ItemTemplate>
-                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("Matricula") %>'></asp:Label>
+                            <asp:LinkButton ID="lnkExamPsic" runat="server" Text='<%# Bind("ExamPsico.Estatus") %>'></asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="[Documentos]">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkDocu" runat="server" Text='<%# Bind("Documento.Nombre") %>'></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Pagos]">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkPago" runat="server" Text='<%# Bind("Pago.TipoPago.Nombre") %>'></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Examen Conocimientos]">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkExam" runat="server" Text='<%# Bind("Examen.Aprobado") %>'></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="[Etapa Actual]">
+                        <ItemTemplate>
+                            <asp:Label ID="lblCierre" runat="server" Text='<%# Bind("Etapa.Nombre") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <%--                    <asp:TemplateField HeaderText="[Documentos]">
                         <ItemTemplate>
                             <asp:Label ID="Label6" runat="server" Text='<%# Bind("Documento.Id") %>'></asp:Label>
                         </ItemTemplate>
@@ -110,7 +130,7 @@
                         <ItemTemplate>
                             <asp:Label ID="Label16" runat="server" Text='<%# Bind("Pago.TipoPago.Nombre") %>'></asp:Label>
                         </ItemTemplate>
-                    </asp:TemplateField>
+                    </asp:TemplateField>--%>
                 </Columns>
 
             </asp:GridView>

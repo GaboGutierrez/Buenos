@@ -20,7 +20,7 @@ namespace Gabo.Escuela.Business
             {
                 EntAlumno ent = new EntAlumno();
                 ent.Id = Convert.ToInt32(dr["ALUM_ID"]);
-                ent.Nombre = dr["ALUM_NOMB"].ToString(); //
+                ent.Nombre = String.Format("{0} {1} {2}", dr["ALUM_NOMB"].ToString(), dr["ALUM_APAT"].ToString(), dr["ALUM_AMAT"].ToString()); //
                 ent.Paterno = dr["ALUM_APAT"].ToString();//
                 ent.Materno = dr["ALUM_AMAT"].ToString();//
                 ent.Nacimiento = Convert.ToDateTime(dr["ALUM_FNAC"]);
@@ -75,5 +75,52 @@ namespace Gabo.Escuela.Business
             return lst;
 
         }
+        public List<EntSexo> MostrarSexo()
+        {
+            List<EntSexo> lst = new List<EntSexo>();
+            DataTable dt = new DataTable();
+            dt = new DatAlumno().ObtenerSexo();
+            foreach (DataRow dr in dt.Rows)
+            {
+                EntSexo ent = new EntSexo();
+                ent.Id = Convert.ToInt32(dr["SEXO_ID"]);
+                ent.Nombre = dr["SEXO_NOMB"].ToString();
+                lst.Add(ent);
+            }
+            return lst;
+        }
+        public List<EntEtapa> MostrarEtapas()
+        {
+            List<EntEtapa> lst = new List<EntEtapa>();
+            DataTable dt = new DataTable();
+            dt = new DatAlumno().ObtenerEtapas();
+            foreach (DataRow dr in dt.Rows)
+            {
+                EntEtapa ent = new EntEtapa();
+                ent.Id = Convert.ToInt32(dr["ETAP_ID"]);
+                ent.Nombre = dr["ETAP_NOMB"].ToString();
+                ent.Descripcion = dr["ETAP_DESC"].ToString();
+                lst.Add(ent);
+            }
+            return lst;
+        }
+        public List<EntTipoPago> MostrarTipoPago()
+        {
+            List<EntTipoPago> lst = new List<EntTipoPago>();
+            DataTable dt = new DataTable();
+            dt = new DatAlumno().ObtenerTipoPago();
+            foreach (DataRow dr in dt.Rows)
+            {
+                EntTipoPago ent = new EntTipoPago();
+                ent.Id = Convert.ToInt32(dr["TIPO_PAGO_ID"]);
+                ent.Nombre = dr["TIPO_PAGO_NOMB"].ToString();
+                ent.Descripcion = dr["TIPO_PAGO_DESC"].ToString();
+                lst.Add(ent);
+            }
+            return lst;
+        }
+
+
+
     }
 }

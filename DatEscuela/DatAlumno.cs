@@ -19,5 +19,32 @@ namespace Gabo.Escuela.Data
             da.Fill(dt);
             return dt;
         }
+        public DataTable ObtenerSexo()
+        {
+            SqlCommand com = new SqlCommand("spObtenerSexo", con);
+            com.CommandType = CommandType.StoredProcedure;
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(com);
+            da.Fill(dt);
+            return dt;
+        }
+        public DataTable ObtenerEtapas()
+        {
+            SqlCommand com = new SqlCommand("spObtenerEtapas", con);
+            com.CommandType = CommandType.StoredProcedure;
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(com);
+            da.Fill(dt);
+            return dt;
+        }
+        public DataTable ObtenerTipoPago()
+        {
+            SqlCommand com = new SqlCommand("[spObtenerTipoPago]", con);
+            com.CommandType = CommandType.StoredProcedure;
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(com);
+            da.Fill(dt);
+            return dt;
+        }
     }
 }
