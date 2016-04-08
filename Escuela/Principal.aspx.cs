@@ -13,7 +13,7 @@ public partial class Principal : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-<<<<<<< HEAD
+
             CargarGrid();
             LlenarDDLSexo();
             LlenarDDLTipoPago();
@@ -45,10 +45,8 @@ public partial class Principal : System.Web.UI.Page
         catch (Exception ex)
         {
             MostrarMensaje(ex.Message);
-=======
-            //CargarGrid();
-            CargarGV();
->>>>>>> origin/master
+            CargarGrid();
+
         }
     }
     private void CargarGrid()
