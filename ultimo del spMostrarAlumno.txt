@@ -1,0 +1,67 @@
+
+-- exec spMostrarAlumno
+ALTER PROCEDURE [dbo].[spMostrarAlumno]
+AS
+    BEGIN	
+        SELECT  ALUM_ID ,
+                ALUM_NOMB ,
+                ALUM_APAT ,
+                ALUM_AMAT ,
+                ALUM_FNAC ,
+                ALUM_SEXO_ID ,
+                SEXO_ID ,
+                SEXO_NOMB ,
+                ALUM_FREG ,
+                ALUM_MAIL ,
+                ALUM_PRGR ,
+                ALUM_MATR ,
+                ISNULL(DOCS_ID, 0) DOCS_ID ,
+                ISNULL(DOCS_ALUM_ID, 0) DOCS_ALUM_ID ,
+                ISNULL(DOCS_NOMB, 'Cargar Doc') DOCS_NOMB ,
+                ISNULL(DOCS_TIPO, '') DOCS_TIPO ,
+                ISNULL(DOCS_APRO,0)DOCS_APRO ,
+                ISNULL(DOCS_FECH_ALTA, '01/01/1900') DOCS_FECH_ALTA ,
+                ISNULL(ALUM_EXPS_ID, 0) ALUM_EXPS_ID ,
+                ISNULL(EXPS_ID, 0)EXPS_ID ,
+				ISNULL(EXPS_RESP_UNO,0) EXPS_RESP_UNO ,
+                ISNULL(EXPS_RESP_DOS, 0)EXPS_RESP_DOS ,
+                ISNULL(EXPS_RESP_TRES, 0)EXPS_RESP_TRES ,
+                ISNULL(EXPS_RESP_CUAT, 0)EXPS_RESP_CUAT,
+                ISNULL(EXPS_FECH_APLI, '01/01/1900') EXPS_FECH_APLI,
+                ISNULL(EXPS_ESTA, 0) EXPS_ESTA ,
+                ALUM_ETAP_ID ,
+                ETAP_ID ,
+                ETAP_NOMB ,
+                ETAP_DESC ,
+                ISNULL(EXAM_ID, 0) EXAM_ID ,
+                ISNULL(EXAM_ALUM_ID, 0)EXAM_ALUM_ID ,
+                ISNULL(EXAM_RESP_UNO,'') EXAM_RESP_UNO ,
+                ISNULL(EXAM_RESP_DOS,0) EXAM_RESP_DOS,
+                ISNULL(EXAM_RESP_TRES,0) EXAM_RESP_TRES,
+                ISNULL(EXAM_RESP_CUAT,'01/01/1900') EXAM_RESP_CUAT ,
+                ISNULL(EXAM_FECH_APLI,'01/01/1900') EXAM_FECH_APLI,
+                ISNULL(EXAM_CALI,0)EXAM_CALI ,
+                ISNULL(EXAM_APRO,0)EXAM_APRO ,
+                ISNULL(PAGO_ID,0) PAGO_ID,
+                ISNULL(PAGO_ALUM_ID,0)PAGO_ALUM_ID ,
+                ISNULL(PAGO_FECH, '01/01/1900')PAGO_FECH ,
+                ISNULL(PAGO_CANT, 0)PAGO_CANT ,
+                ISNULL(PAGO_DESC, '') PAGO_DESC,
+                ISNULL(PAGO_TIPO_PAGO_ID, 0)PAGO_TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_ID, 0)TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_NOMB,'Ingresa Pago')TIPO_PAGO_NOMB ,
+                ISNULL(TIPO_PAGO_DESC, '')TIPO_PAGO_DESC ,
+                ALUM_PERF_ID ,
+                PERF_ID ,
+                PERF_NOMB ,
+                ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                LEFT JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID
+                LEFT JOIN dbo.DOCUMENTOS ON DOCUMENTOS.DOCS_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.EXAMEN ON EXAMEN.EXAM_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.PAGOS ON PAGOS.PAGO_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.TIPO_PAGOS ON TIPO_PAGOS.TIPO_PAGO_ID = PAGOS.PAGO_TIPO_PAGO_ID;
+    END;
