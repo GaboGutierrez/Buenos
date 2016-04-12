@@ -56,18 +56,7 @@ public partial class Inicio : System.Web.UI.Page
             MostrarMensaje(ex.Message);
         }
     }
-    protected void btnCancelar_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            Response.Redirect("Inicio.aspx");
-        }
-        catch (Exception ex)
-        {
-            MostrarMensaje(ex.Message);
-        }
-    }
-    protected void btnAceptar_Click(object sender, EventArgs e)
+        protected void btnAceptar_Click(object sender, EventArgs e)
     {
         try
         {

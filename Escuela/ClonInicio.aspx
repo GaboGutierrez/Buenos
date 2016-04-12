@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mpEscuela.master" AutoEventWireup="true" CodeFile="Inicio.aspx.cs" Inherits="Inicio" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mpEscuela.master" AutoEventWireup="true" CodeFile="ClonInicio.aspx.cs" Inherits="ClonInicio" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <link href="css/bootstrap.css" rel="stylesheet" />
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-    <div class="container  ">
+<asp:Content ID="Content2" ContentPlaceHolderID="body" Runat="Server">
+     <div class="container  ">
         <div class="row">
             <div class="col-md-6">
                 <asp:Image ImageUrl="~/img/no_encontrado.png" Visible="false" runat="server" ID="imgNoUsuario" />
@@ -32,7 +32,7 @@
                                 <label class="btn btn-block btn-warning" data-toggle="modal" data-target="#modRegistro">Nuevo Usuario</label>
                             </div>
                             <div class="col-xs-6">
-                                <asp:Button class="btn btn-block btn-info" Text="Ingresar" ID="btnAceptar" runat="server" OnClick="btnAceptar_Click" />
+                                <asp:Button class="btn btn-block btn-info" Text="Ingresar" ID="btnAceptar" runat="server" />
                             </div>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                             </div>
                             <div class="col-xs-3" style="text-align: center;">
                                 <br />
-                                <asp:Button Text="Agregar" runat="server" ID="btnAgregarRegistro" CssClass="btn btn-success" Enabled="false" OnClick="btnAgregarRegistro_Click" />
+                                <asp:Button Text="Agregar" runat="server" ID="btnAgregarRegistro" CssClass="btn btn-success" Enabled="false" />
                             </div>
                         </div>
                     </div>
