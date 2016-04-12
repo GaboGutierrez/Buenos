@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col-xs-3">
                                 <br />
-                                <asp:DropDownList ID="ddlPerfilModal" runat="server" AppendDataBoundItems="true" CssClass="form-control" DataTextField="Perfil" OnSelectedIndexChanged="ddlPerfilModal_SelectedIndexChanged" AutoPostBack="true">
+                                <asp:DropDownList ID="ddlPerfilModal" runat="server" AppendDataBoundItems="true" CssClass="form-control" DataTextField="Perfil">
                                     <asp:ListItem Value="0" Text="[Selecciona uno]" />
                                 </asp:DropDownList>
 
@@ -132,10 +132,10 @@
                     <div class="modal-footer">
                         <div class="row">
                             <div class="col-md-6">
-                                <div>
-                                    <asp:TextBox runat="server" ID="txtUsuaAdmiModal" placeholder="Correo" Visible="false" />
-                                    <asp:TextBox runat="server" ID="txtPassAdmiModal" placeholder="Contraseña" Visible="false" TextMode="Password" />
-                                    <asp:Button runat="server" Text="Autorizar" ID="btnAutoAdmiModal" Visible="false" OnClick="btnAutoAdmiModal_Click" />
+                                <div id="divAutorizar" style="display: none">
+                                    <input type="text" id="txtCorreo" placeholder="Correo"/>
+                                    <input type="text" id="txtContraseña" placeholder="Contraseña"/>
+                                    <label id="btnAutorizar" class="btn btn-sm btn-success">Autorizar</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -152,5 +152,43 @@
     </div>
     <script src="js/jquery-2.1.4.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#body_ddlPerfilModal').change(function () {
+                if ($(this).val() == "2") {
+                    $('#divAutorizar').show();
+                } else {
+                    $('#divAutorizar').hide();
+                }
+            });
+            $('#btnAutorizar').on("click", function () {
+                var usuario = $('#txtCorreo').val();
+                var password = $('#txtContraseña').val();
+                misDatos = '{"usuario":"' + usuario + '", "password":"' + password + '" }';
+                $.ajax({
+                    type: "POST",
+                    url: "Inicio.aspx/Autorizar",
+                    data: misDatos,
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        var list = $.parseJSON(msg.d);
+                        if (list.PerfilId == "1") {                            
+                            alert("El usuario ingresado no es administrador y tu no puedes asignarte como administrador.");
+                        }
+                        else if (list.PerfilId == "2") {
+                            alert("Adelante, acceso autorizado para darte de alta como administrador.");
+                            $('#body_btnAgregarRegistro').prop("disabled", false);
+                        }
+                    },
+                    error: function (msg) {
+                        alert('Error al validar datos. ' + msg.responseText);
+                    }
+                });//Fin Ajax
+            });//Fin de btnAutoriza
+
+        });
+    </script>
 </asp:Content>
 

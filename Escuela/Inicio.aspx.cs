@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -102,7 +104,7 @@ public partial class Inicio : System.Web.UI.Page
             alumno.Correo = txtCorreoModal.Text.Trim();
             alumno.Promedio = Convert.ToDouble(txtPromedioModal.Text.Trim());
             string cadena = "perro";
-            
+
 
             //for (int i = 0; i > 1; i++)
             //{
@@ -140,9 +142,6 @@ public partial class Inicio : System.Web.UI.Page
             if (ddlPerfilModal.SelectedIndex == 2)
             {
                 btnAgregarRegistro.Enabled = false;
-                txtUsuaAdmiModal.Visible = true;
-                txtPassAdmiModal.Visible = true;
-                btnAutoAdmiModal.Visible = true;
             }
         }
         catch (Exception ex)
@@ -151,32 +150,41 @@ public partial class Inicio : System.Web.UI.Page
         }
 
     }
-    protected void btnAutoAdmiModal_Click(object sender, EventArgs e)
+    //protected void btnAutoAdmiModal_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        EntAlumno ent = new BusAlumno().ObtenerAcceso(txtUsuaAdmiModal.Text, txtPassAdmiModal.Text);
+    //        if (ent != null)
+    //        {
+    //            if (ent.PerfilId == 1)
+    //            {
+    //                btnAgregarRegistro.Enabled = false;
+    //                MostrarMensaje("El usuario ingresado no es administrador y tu no puedes asignarte como administrador.");
+    //            }
+    //            else if (ent.PerfilId == 2)
+    //            {
+    //                MostrarMensaje("Adelante, acceso autorizado para darte de alta como administrador.");
+    //                btnAgregarRegistro.Enabled = true;
+    //            }
+    //            else
+    //            {
+    //                Response.Redirect("Inicio.aspx");
+    //            }
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        MostrarMensaje(ex.Message);
+    //    }
+    //}
+
+    [WebMethod]
+    public static string Autorizar(string usuario, string password)
     {
-        try
-        {
-            EntAlumno ent = new BusAlumno().ObtenerAcceso(txtUsuaAdmiModal.Text, txtPassAdmiModal.Text);
-            if (ent != null)
-            {
-                if (ent.PerfilId == 1)
-                {
-                    btnAgregarRegistro.Enabled = false;
-                    MostrarMensaje("El usuario ingresado no es administrador y tu no puedes asignarte como administrador.");
-                }
-                else if (ent.PerfilId == 2)
-                {
-                    MostrarMensaje("Adelante, acceso autorizado para darte de alta como administrador.");
-                    btnAgregarRegistro.Enabled = true;
-                }
-                else
-                {
-                    Response.Redirect("Inicio.aspx");
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MostrarMensaje(ex.Message);
-        }
+        EntAlumno ent = new BusAlumno().ObtenerAcceso(usuario, password);
+        JavaScriptSerializer oSerializer = new JavaScriptSerializer();
+        string json = oSerializer.Serialize(ent);
+        return json;
     }
 }
