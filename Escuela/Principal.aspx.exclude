@@ -1,10 +1,18 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mpEscuela.master" AutoEventWireup="true" CodeFile="Principal.aspx.cs" Inherits="Principal" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Principal.aspx.cs" Inherits="Principal" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
     <link href="css/bootstrap.css" rel="stylesheet" />
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="body" Runat="Server">
-    <div class="container">
+    <script src="js/jquery-2.1.4.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="container">
             <asp:GridView ID="gvEscuela" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="False">
                 <Columns>
                     <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Matricula]">
@@ -86,7 +94,7 @@
                             </div>
                             <div class="col-xs-3" style="text-align: center;">
                                 <br />
-                                <asp:Button Text="Agregar" runat="server" ID="btnAgregarDocumentos" CssClass="btn btn-success" OnClick="btnAgregarDocumentos_Click" />
+                                <asp:Button Text="Agregar" runat="server" ID="btnAgregarDocumentos" CssClass="btn btn-success" />
                             </div>
                         </div>
                     </div>
@@ -279,9 +287,6 @@
                 </div>
             </div>
         </div>
-
-
-    <script src="js/jquery-2.1.4.js"></script>
-    <script src="js/bootstrap.js"></script>
-</asp:Content>
-
+    </form>
+</body>
+</html>
