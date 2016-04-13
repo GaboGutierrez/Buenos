@@ -5,6 +5,8 @@
     void Application_Start(object sender, EventArgs e)
     {
         ValidationSettings.UnobtrusiveValidationMode = System.Web.UI.UnobtrusiveValidationMode.None;
+        //este codigo sirve para que no mande el error cuando se hace uso de los validadores en VS 2013
+             
         // Código que se ejecuta al iniciarse la aplicación
 
     }

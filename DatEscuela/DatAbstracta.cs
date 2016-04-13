@@ -12,8 +12,8 @@ namespace Gabo.Escuela.Data
         public SqlConnection con;
         public DatAbstracta()
         {
-            con = new SqlConnection("Data Source = CASALAP; User Id=sa; Password=12345; Initial Catalog=Escuela;");
-
+            con = new SqlConnection("Data Source = LEONEL\\MSSQLSERVER2012; User Id=sa; Password=12345; Initial Catalog=Escuela;");
+            //LEONEL\MSSQLSERVER2012;
         }
     }
 }

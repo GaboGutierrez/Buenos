@@ -13,6 +13,7 @@ namespace Gabo.Escuela.Business.Entidad
         public string Paterno { get; set; }
         public string Materno { get; set; }
         public DateTime Nacimiento { get; set; }
+        public string fnacimiento { get; set; }
         public int SexoId { get; set; }
         private EntSexo sexo;
         public EntSexo Sexo
