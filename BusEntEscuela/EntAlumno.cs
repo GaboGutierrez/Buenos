@@ -13,6 +13,7 @@ namespace Gabo.Escuela.Business.Entidad
         public string Paterno { get; set; }
         public string Materno { get; set; }
         public DateTime Nacimiento { get; set; }
+        public string fNacimiento { get; set; }
         public int SexoId { get; set; }
         private EntSexo sexo;
         public EntSexo Sexo
@@ -53,8 +54,6 @@ namespace Gabo.Escuela.Business.Entidad
                 documento = value;
             }
         }
-
-
         public int ExamenPsicoId { get; set; }
         private EntExamPsico examPsico;
         public EntExamPsico ExamPsico
@@ -162,6 +161,7 @@ namespace Gabo.Escuela.Business.Entidad
         public int RespTres { get; set; }
         public int RespCuatro { get; set; }
         public DateTime FechaAplicacion { get; set; }
+        public string fAplicacionEP { get; set; }
         public bool Estatus { get; set; }
     }
     public class EntEtapa
@@ -183,6 +183,7 @@ namespace Gabo.Escuela.Business.Entidad
         public string Tipo { get; set; }
         public bool Aprobado { get; set; }
         public DateTime FechaAlta { get; set; }
+        public string fAlta { get; set; }
     }
     public class EntPago
     {

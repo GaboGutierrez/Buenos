@@ -53,34 +53,45 @@
                     tabla += ' <td>' + this.Nombre + ' ' + this.Paterno + ' ' + this.Materno + '</td>';
                     tabla += ' <td>' + this.fRegistro + ' </td>';
                     tabla += ' <td>' + this.Correo + '</td>';
-
                     switch (this.EtapaId) {
                         case 1: {
-                            tabla += '<td><a data-toggle="modal" data-target="#modPsicometrico",>Presentar Examen</a></td>';
+                            tabla += '<td><a data-toggle="modal" data-target="#modPsicometrico"> Presentar Examen</a></td>';
                             tabla += '<td></td>';
                             tabla += '<td></td>';
                             tabla += '<td></td>';
-                            tabla += '<td></td>';
+                            tabla += '<td><label>Examen Psicométrico</label></td>';
                             break;
                         }
                         case 2: {
-                            if (this.ExamPsico.Aprobado)
-                                tabla += ' <td><label>'+ this.FechaAplicacion + ' Aprobado' + '</label></td>';
-                            else
+                            if (this.ExamPsico.Aprobado) {
+                                tabla += ' <td><label>' + this.ExamPsico.fAplicacionEP + ' Aprobado' + '</label></td>';
+                                tabla += ' <td><a data-toggle="modal" data-target="#modDocumentos">CargarArchivo</a></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td><label>Recepción de Documentos</label></td>';
+                            }
+                            else {
                                 tabla += ' <td><label>Reprobado</label></td>';
-
-                            tabla += ' <td><a data-toggle="modal" data-target="#modDocumentos",>CargarArchivo</a></td>';
-                            tabla += ' <td></td>';
-                            tabla += ' <td></td>';
-                            tabla += ' <td></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td><label>Rechazado</label></td>';
+                            }
                             break;
                         }
                         case 3: {
-                            tabla += ' <td>[Examen Psicométrico]</td>';
-                            tabla += ' <td>[Documentos]</td>';
-                            tabla += ' <td>[Pagos]</td>';
-                            tabla += ' <td>[Examen Conocimientos]</td>';
-                            tabla += ' <td>[Etapa Actual]</td>';
+                            tabla += ' <td><label>' + this.ExamPsico.fAplicacionEP + ' Aprobado' + '</label></td>';
+                            if (this.Documento.Aprobado) {
+                                tabla += ' <td><label>' + this.Documento.FechaAplicacion + '' + this.Documento.Nombre + ' ' + this.Documento.Tipo + '</label></a></td>';
+                                tabla += ' <td><a data-toggle="modal" data-target="#modPagos">Realizar Pago</a></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td><label>Recepción de Documentos</label></td>';
+                            } else {
+                                tabla += ' <td>No hay documentos</td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td><label>Falta que entregue documentos</label></td>';
+                            }
                             break;
                         }
                         case 4: {
