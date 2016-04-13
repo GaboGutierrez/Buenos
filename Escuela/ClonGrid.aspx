@@ -6,57 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <div class="container">
         <div id="divTabla"></div>
-        <asp:GridView ID="gvEscuela" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="False">
-            <Columns>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Matricula]">
-                    <ItemTemplate>
-                        <asp:Label ID="Label5" runat="server" Text='<%# Bind("Matricula") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Nombre completo]">
-                    <ItemTemplate>
-                        <asp:Label ID="Label1" runat="server" Text='<%# Bind("Nombre") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Fecha de Registro]">
-                    <ItemTemplate>
-                        <asp:Label ID="Label3" runat="server" Text='<%# Bind("FechaRegistro", "{0:dd/MM/yyyy}") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Correo electrónico]">
-                    <ItemTemplate>
-                        <asp:Label ID="Label4" runat="server" Text='<%# Bind("Correo") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Examen Psicométrico]">
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lnkExamPsic" runat="server" Text='<%# Bind("ExamPsico.Estatus") %>'></asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Documentos]">
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lnkDocu" runat="server" Text='<%# Bind("Documento.Nombre") %>'></asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Pagos]">
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lnkPago" runat="server" Text='<%# Bind("Pago.TipoPago.Nombre") %>'></asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Examen Conocimientos]">
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lnkExam" runat="server" Text='<%# Bind("Examen.Aprobado") %>'></asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-CssClass="text-center; form-control;" HeaderText="[Etapa Actual]">
-                    <ItemTemplate>
-                        <asp:Label ID="lblCierre" runat="server" Text='<%# Bind("Etapa.Nombre") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
     </div>
-
     <%-- Segundo modal para los documentos --%>
     <!-- Modal -->
     <div class="modal fade" id="modDocumentos" role="dialog" style="width: 1000px;">
@@ -258,8 +208,6 @@
             </div>
         </div>
     </div>
-
-
     <script src="js/jquery-2.1.4.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/app.js"></script>
