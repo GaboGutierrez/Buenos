@@ -31,6 +31,7 @@ namespace Gabo.Escuela.Business.Entidad
             }
         }
         public DateTime FechaRegistro { get; set; }
+        public string fRegistro { get; set; }
         public string Correo { get; set; }
         public double Promedio { get; set; }
         public string Matricula { get; set; }

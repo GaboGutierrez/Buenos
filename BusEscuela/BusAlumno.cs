@@ -28,6 +28,7 @@ namespace Gabo.Escuela.Business
                 ent.Sexo.Id = Convert.ToInt32(dr["SEXO_ID"]);
                 ent.Sexo.Nombre = dr["SEXO_NOMB"].ToString();//
                 ent.FechaRegistro = Convert.ToDateTime(dr["ALUM_FREG"]);//
+                ent.fRegistro = ent.FechaRegistro.ToString("dd/MM/yyyy");
                 ent.Correo = dr["ALUM_MAIL"].ToString();//
                 ent.Promedio = Convert.ToInt32(dr["ALUM_PRGR"]);
                 ent.Matricula = dr["ALUM_MATR"].ToString();//
