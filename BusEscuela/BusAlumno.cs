@@ -24,7 +24,11 @@ namespace Gabo.Escuela.Business
                 ent.Paterno = dr["ALUM_APAT"].ToString();//
                 ent.Materno = dr["ALUM_AMAT"].ToString();//
                 ent.Nacimiento = Convert.ToDateTime(dr["ALUM_FNAC"]);
+<<<<<<< HEAD
                 ent.fnacimiento = ent.Nacimiento.ToString("dd/MM/yyyy");
+=======
+                ent.fNacimiento = ent.Nacimiento.ToString("dd/MM/yyyy");
+>>>>>>> origin/master
                 ent.SexoId = Convert.ToInt32(dr["ALUM_SEXO_ID"]);
                 ent.Sexo.Id = Convert.ToInt32(dr["SEXO_ID"]);
                 ent.Sexo.Nombre = dr["SEXO_NOMB"].ToString();//
@@ -46,6 +50,7 @@ namespace Gabo.Escuela.Business
                 ent.ExamPsico.RespTres = Convert.ToInt32(dr["EXPS_RESP_TRES"]);
                 ent.ExamPsico.RespCuatro = Convert.ToInt32(dr["EXPS_RESP_CUAT"]);
                 ent.ExamPsico.FechaAplicacion = Convert.ToDateTime(dr["EXPS_FECH_APLI"]);
+                ent.ExamPsico.fAplicacionEP = ent.ExamPsico.FechaAplicacion.ToString("dd/MM/yyyy");
                 ent.ExamPsico.Estatus = Convert.ToBoolean(dr["EXPS_ESTA"]);//
                 ent.EtapaId = Convert.ToInt32(dr["ALUM_ETAP_ID"]);//
                 ent.Etapa.Id = Convert.ToInt32(dr["ETAP_ID"]);
@@ -75,7 +80,6 @@ namespace Gabo.Escuela.Business
                 lst.Add(ent);
             }
             return lst;
-
         }
         public List<EntAlumno> Mostrar(int id)
         {
@@ -90,10 +94,12 @@ namespace Gabo.Escuela.Business
                 ent.Paterno = dr["ALUM_APAT"].ToString();//
                 ent.Materno = dr["ALUM_AMAT"].ToString();//
                 ent.Nacimiento = Convert.ToDateTime(dr["ALUM_FNAC"]);
+                ent.fNacimiento = ent.Nacimiento.ToString("dd/MM/yyyy");
                 ent.SexoId = Convert.ToInt32(dr["ALUM_SEXO_ID"]);
                 ent.Sexo.Id = Convert.ToInt32(dr["SEXO_ID"]);
                 ent.Sexo.Nombre = dr["SEXO_NOMB"].ToString();//
                 ent.FechaRegistro = Convert.ToDateTime(dr["ALUM_FREG"]);//
+                ent.fRegistro = ent.FechaRegistro.ToString("dd/MM/yyyy");
                 ent.Correo = dr["ALUM_MAIL"].ToString();//
                 ent.Promedio = Convert.ToInt32(dr["ALUM_PRGR"]);
                 ent.Matricula = dr["ALUM_MATR"].ToString();//
@@ -224,7 +230,6 @@ namespace Gabo.Escuela.Business
             int filas = new DatAlumno().AgregarRegistro(ent.Nombre, ent.Paterno, ent.Materno, ent.Nacimiento, ent.SexoId, ent.FechaRegistro, ent.Correo, ent.Promedio, ent.Matricula, ent.EtapaId, ent.PerfilId, ent.Password);
             if (filas != 1)
                 throw new ApplicationException(string.Format("Error al insertar a {0} ", ent.Nombre));
-
         }
     }
 }

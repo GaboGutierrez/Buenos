@@ -1,0 +1,881 @@
+CREATE DATABASE [Escuela]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Escuela', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\Escuela.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'Escuela_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\Escuela_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [Escuela] SET COMPATIBILITY_LEVEL = 110
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Escuela].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Escuela] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Escuela] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Escuela] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Escuela] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Escuela] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Escuela] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Escuela] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [Escuela] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Escuela] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Escuela] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Escuela] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Escuela] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Escuela] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Escuela] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Escuela] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Escuela] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Escuela] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Escuela] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Escuela] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Escuela] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Escuela] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Escuela] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Escuela] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Escuela] SET RECOVERY FULL 
+GO
+ALTER DATABASE [Escuela] SET  MULTI_USER 
+GO
+ALTER DATABASE [Escuela] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Escuela] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Escuela] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Escuela] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'Escuela', N'ON'
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+--EXEC spAcceso 'gabo_gutierrez@outlook.com','12345'
+CREATE PROC [spAcceso]
+    (
+      @Correo NVARCHAR(50) ,
+      @Password NVARCHAR(50)
+    )
+AS
+    BEGIN
+        SELECT  ALUM_ID ,
+                ALUM_NOMB ,
+                ALUM_APAT ,
+                ALUM_MAIL ,
+                ALUM_PASS ,
+                ALUM_PERF_ID ,
+                ALUM_MATR ,
+                PERF_NOMB
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID
+        WHERE   ALUM_MAIL = @Correo
+                AND ALUM_PASS = @Password;
+    END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spEliminarAlumno]
+(
+@Id INT
+)
+AS
+BEGIN
+DELETE FROM dbo.ALUMNO WHERE ALUM_ID=@Id;
+END
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spInsertarPago]
+(
+@AlumnoId INT,
+@FechaPago DATE,
+@Cantidad DECIMAL(10,2),
+@Descripcion NVARCHAR(MAX),
+@TipoPagoId INT
+
+)
+AS
+BEGIN
+INSERT INTO dbo.PAGOS
+        ( PAGO_ID ,
+          PAGO_ALUM_ID ,
+          PAGO_FECH ,
+          PAGO_CANT ,
+          PAGO_DESC ,
+          PAGO_TIPO_PAGO_ID
+        )
+VALUES  (
+( SELECT  ISNULL(MAX(PAGO_ID) + 1, 1)
+                    FROM    dbo.PAGOS
+                  ) ,
+				  
+				  @AlumnoId,
+				  @FechaPago,
+				  @Cantidad,
+				  @Descripcion,
+				  @TipoPagoId
+
+        )
+		END;
+
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- exec spMostrarAlumno
+CREATE PROCEDURE [spMostrarAlumno]
+AS
+    BEGIN	
+        SELECT  ALUM_ID ,
+                ALUM_NOMB ,
+                ALUM_APAT ,
+                ALUM_AMAT ,
+                ALUM_FNAC ,
+                ALUM_SEXO_ID ,
+                SEXO_ID ,
+                SEXO_NOMB ,
+                ALUM_FREG ,
+                ALUM_MAIL ,
+                ALUM_PRGR ,
+                ALUM_MATR ,
+                ISNULL(DOCS_ID, 0) DOCS_ID ,
+                ISNULL(DOCS_ALUM_ID, 0) DOCS_ALUM_ID ,
+                ISNULL(DOCS_NOMB, 'Cargar Doc') DOCS_NOMB ,
+                ISNULL(DOCS_TIPO, '') DOCS_TIPO ,
+                ISNULL(DOCS_APRO, 0) DOCS_APRO ,
+                ISNULL(DOCS_FECH_ALTA, '01/01/1900') DOCS_FECH_ALTA ,
+                ISNULL(ALUM_EXPS_ID, 0) ALUM_EXPS_ID ,
+                ISNULL(EXPS_ID, 0) EXPS_ID ,
+                ISNULL(EXPS_RESP_UNO, 0) EXPS_RESP_UNO ,
+                ISNULL(EXPS_RESP_DOS, 0) EXPS_RESP_DOS ,
+                ISNULL(EXPS_RESP_TRES, 0) EXPS_RESP_TRES ,
+                ISNULL(EXPS_RESP_CUAT, 0) EXPS_RESP_CUAT ,
+                ISNULL(EXPS_FECH_APLI, '01/01/1900') EXPS_FECH_APLI ,
+                ISNULL(EXPS_ESTA, 0) EXPS_ESTA ,
+                ALUM_ETAP_ID ,
+                ETAP_ID ,
+                ETAP_NOMB ,
+                ETAP_DESC ,
+                ISNULL(EXAM_ID, 0) EXAM_ID ,
+                ISNULL(EXAM_ALUM_ID, 0) EXAM_ALUM_ID ,
+                ISNULL(EXAM_RESP_UNO, '') EXAM_RESP_UNO ,
+                ISNULL(EXAM_RESP_DOS, 0) EXAM_RESP_DOS ,
+                ISNULL(EXAM_RESP_TRES, 0) EXAM_RESP_TRES ,
+                ISNULL(EXAM_RESP_CUAT, '01/01/1900') EXAM_RESP_CUAT ,
+                ISNULL(EXAM_FECH_APLI, '01/01/1900') EXAM_FECH_APLI ,
+                ISNULL(EXAM_CALI, 0) EXAM_CALI ,
+                ISNULL(EXAM_APRO, 0) EXAM_APRO ,
+                ISNULL(PAGO_ID, 0) PAGO_ID ,
+                ISNULL(PAGO_ALUM_ID, 0) PAGO_ALUM_ID ,
+                ISNULL(PAGO_FECH, '01/01/1900') PAGO_FECH ,
+                ISNULL(PAGO_CANT, 0) PAGO_CANT ,
+                ISNULL(PAGO_DESC, '') PAGO_DESC ,
+                ISNULL(PAGO_TIPO_PAGO_ID, 0) PAGO_TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_ID, 0) TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_NOMB, 'Ingresa Pago') TIPO_PAGO_NOMB ,
+                ISNULL(TIPO_PAGO_DESC, '') TIPO_PAGO_DESC ,
+                ALUM_PERF_ID ,
+                PERF_ID ,
+                PERF_NOMB ,
+                ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                LEFT JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID
+                LEFT JOIN dbo.DOCUMENTOS ON DOCUMENTOS.DOCS_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.EXAMEN ON EXAMEN.EXAM_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.PAGOS ON PAGOS.PAGO_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.TIPO_PAGOS ON TIPO_PAGOS.TIPO_PAGO_ID = PAGOS.PAGO_TIPO_PAGO_ID
+        ORDER BY ALUM_APAT ASC; 
+    END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- exec spMostrarAlumnoId 1
+CREATE PROCEDURE [spMostrarAlumnoId] @Id INT
+AS
+    BEGIN	
+        SELECT  ALUM_ID ,
+                ALUM_NOMB ,
+                ALUM_APAT ,
+                ALUM_AMAT ,
+                ALUM_FNAC ,
+                ALUM_SEXO_ID ,
+                SEXO_ID ,
+                SEXO_NOMB ,
+                ALUM_FREG ,
+                ALUM_MAIL ,
+                ALUM_PRGR ,
+                ALUM_MATR ,
+                ISNULL(DOCS_ID, 0) DOCS_ID ,
+                ISNULL(DOCS_ALUM_ID, 0) DOCS_ALUM_ID ,
+                ISNULL(DOCS_NOMB, 'Cargar Doc') DOCS_NOMB ,
+                ISNULL(DOCS_TIPO, '') DOCS_TIPO ,
+                ISNULL(DOCS_APRO, 0) DOCS_APRO ,
+                ISNULL(DOCS_FECH_ALTA, '01/01/1900') DOCS_FECH_ALTA ,
+                ISNULL(ALUM_EXPS_ID, 0) ALUM_EXPS_ID ,
+                ISNULL(EXPS_ID, 0) EXPS_ID ,
+                ISNULL(EXPS_RESP_UNO, 0) EXPS_RESP_UNO ,
+                ISNULL(EXPS_RESP_DOS, 0) EXPS_RESP_DOS ,
+                ISNULL(EXPS_RESP_TRES, 0) EXPS_RESP_TRES ,
+                ISNULL(EXPS_RESP_CUAT, 0) EXPS_RESP_CUAT ,
+                ISNULL(EXPS_FECH_APLI, '01/01/1900') EXPS_FECH_APLI ,
+                ISNULL(EXPS_ESTA, 0) EXPS_ESTA ,
+                ALUM_ETAP_ID ,
+                ETAP_ID ,
+                ETAP_NOMB ,
+                ETAP_DESC ,
+                ISNULL(EXAM_ID, 0) EXAM_ID ,
+                ISNULL(EXAM_ALUM_ID, 0) EXAM_ALUM_ID ,
+                ISNULL(EXAM_RESP_UNO, '') EXAM_RESP_UNO ,
+                ISNULL(EXAM_RESP_DOS, 0) EXAM_RESP_DOS ,
+                ISNULL(EXAM_RESP_TRES, 0) EXAM_RESP_TRES ,
+                ISNULL(EXAM_RESP_CUAT, '01/01/1900') EXAM_RESP_CUAT ,
+                ISNULL(EXAM_FECH_APLI, '01/01/1900') EXAM_FECH_APLI ,
+                ISNULL(EXAM_CALI, 0) EXAM_CALI ,
+                ISNULL(EXAM_APRO, 0) EXAM_APRO ,
+                ISNULL(PAGO_ID, 0) PAGO_ID ,
+                ISNULL(PAGO_ALUM_ID, 0) PAGO_ALUM_ID ,
+                ISNULL(PAGO_FECH, '01/01/1900') PAGO_FECH ,
+                ISNULL(PAGO_CANT, 0) PAGO_CANT ,
+                ISNULL(PAGO_DESC, '') PAGO_DESC ,
+                ISNULL(PAGO_TIPO_PAGO_ID, 0) PAGO_TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_ID, 0) TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_NOMB, 'Ingresa Pago') TIPO_PAGO_NOMB ,
+                ISNULL(TIPO_PAGO_DESC, '') TIPO_PAGO_DESC ,
+                ALUM_PERF_ID ,
+                PERF_ID ,
+                PERF_NOMB ,
+                ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                LEFT JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID
+                LEFT JOIN dbo.DOCUMENTOS ON DOCUMENTOS.DOCS_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.EXAMEN ON EXAMEN.EXAM_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.PAGOS ON PAGOS.PAGO_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.TIPO_PAGOS ON TIPO_PAGOS.TIPO_PAGO_ID = PAGOS.PAGO_TIPO_PAGO_ID
+        WHERE   @Id = ALUM_ID;
+    END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec spObtenerAlumnnos
+CREATE PROC [spObtenerAlumnnos]
+(
+    
+      @Nombre VARCHAR(50) ,
+      @Paterno VARCHAR(50) ,
+      @Materno VARCHAR(50) ,
+      @FechaNacimiento DATETIME ,
+      @SexoId INT ,
+      @FechaRegistro DATETIME ,
+      @Mail NVARCHAR(MAX) ,
+      @PromedioGeneral DECIMAL ,
+      @Matricula VARCHAR(30) ,
+      @ExamenPsicometricoId INT ,
+      @EtapaId INT ,
+      @PerfilId INT 
+    )
+AS
+    BEGIN
+        DECLARE @query NVARCHAR(MAX);
+        SET @query = 'SELECT  ALUMNO.ANIM_ID ,
+SELECT  ALUMNO.ALUM_ID ,
+                ALUMNO.ALUM_NOMB ,
+                ALUMNO.ALUM_APAT ,
+                ALUMNO.ALUM_AMAT ,
+                ALUMNO.ALUM_FNAC ,
+                ALUMNO.ALUM_SEXO_ID ,
+				ALUMNO.SEXO_ID,
+				ALUMNO.SEXO_NOMB,
+				ALUMNO.ALUM_FREG ,
+                ALUMNO.ALLUM_MAIL ,
+                ALUMNO.ALUM_PRGR ,
+                ALUMNO.ALUM_MATR ,
+                ALUMNO.ALUM_EXPS_ID ,
+				EXPS_ID,
+				EXPS_RESP_UNO, 
+				EXPS_RESP_DOS, 
+				EXPS_RESP_TRES, 
+				EXPS_RESP_CUAT, 
+				EXPS_FECH_APLI, 
+				EXPS_ESTA,
+                ALUMNO.ALUM_ETAP_ID ,
+				ETAP_ID,  
+				ETAP_NOMB, 
+				ETAP_DESC,
+                ALUMNO.ALUM_PERF_ID ,
+				PERF_ID, 
+				PERF_NOMB,
+                ALUMNO.ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                INNER JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID;
+WHERE ALUMNO.ALUM_NOMB <> ''''';
+        IF @Nombre <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_NOMB LIKE ''%' + @Nombre
+                    + '%''';
+            END;
+        IF @Paterno <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_APAT = ''%'+ @Paterno 
+            END;
+			IF @Materno <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_AMAT = ''%'+ @Materno; 
+            END;
+			IF @FechaNacimiento<> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_FNAC = ' +  CONVERT(NVARCHAR(30), @FechaNacimiento); 
+            END;
+			IF @SexoId <> 0
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_SEXO_ID = ' +  CONVERT(NVARCHAR(3), @SexoId); 
+            END;
+			IF @FechaRegistro <> ''
+            BEGIN
+                SET @query = @query + ' AND ALUMNO.ALUM_FREG = ' +  CONVERT(NVARCHAR(30), @FechaRegistro); 
+            END;
+			IF	@Mail <> ''
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_SEXO_ID = ''%' + @Mail
+			END;
+			IF	@PromedioGeneral <> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_PRGR = ' + CONVERT(NVARCHAR(10), @PromedioGeneral);
+			END;
+			IF	@Matricula <> ''
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_MATR = ''%' + @Matricula
+			END;
+			IF	@ExamenPsicometricoId<> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_EXPS_ID = ' + CONVERT(NVARCHAR(3), @ExamenPsicometricoId);
+			END;
+			IF	@EtapaId <> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_ETAP_ID = ' + CONVERT(NVARCHAR(3), @EtapaId);
+			END;
+			IF	@PerfilId <> 0
+			BEGIN
+			SET @query=@query + ' AND ALUMNO.ALUM_PERF_ID = ' + CONVERT(NVARCHAR(3), @PerfilId);
+			END;
+		
+        PRINT ( @query );
+        EXEC (@query);
+    END;
+
+
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec spObtenerDocumentos
+CREATE PROC [spObtenerDocumentos]
+AS
+    BEGIN
+        SELECT  DOCS_ID ,
+                DOCS_ALUM_ID ,
+                DOCS_NOMB ,
+                DOCS_TIPO ,
+                DOCS_APRO ,
+                DOCS_FECH_ALTA
+        FROM    dbo.DOCUMENTOS
+        ORDER BY DOCS_ALUM_ID; 
+    END;
+
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerEtapas]
+AS
+BEGIN
+SELECT
+ETAP_ID,
+ETAP_NOMB,
+ETAP_DESC
+FROM dbo.ETAPAS;
+END;
+
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC[spObtenerExamen]
+AS
+BEGIN
+	SELECT
+	EXAM_ID,
+	EXAM_ALUM_ID,
+	EXAM_RESP_UNO,
+	EXAM_RESP_DOS,
+	EXAM_RESP_TRES,
+	EXAM_RESP_CUAT,
+	EXAM_FECH_APLI,
+	EXAM_CALI,
+	EXAM_APRO
+	FROM dbo.EXAMEN;
+END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerExamenPsicometrico]
+AS
+    BEGIN
+        SELECT  
+		EXPS_ID,
+		EXPS_RESP_UNO,
+		EXPS_RESP_DOS,
+		EXPS_RESP_TRES,
+		EXPS_RESP_CUAT,
+		EXPS_FECH_APLI,
+		EXPS_ESTA
+        FROM    dbo.EXAMEN_PSICOMETRICO;
+    END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerPagos]
+AS
+BEGIN
+SELECT
+PAGO_ID,
+PAGO_ALUM_ID,
+PAGO_FECH,
+PAGO_CANT,
+PAGO_DESC,
+PAGO_TIPO_PAGO_ID
+FROM dbo.PAGOS;
+END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec spObtenerPerfil
+CREATE PROC [spObtenerPerfil]
+AS
+    BEGIN
+        SELECT  PERF_ID ,
+                PERF_NOMB
+        FROM    dbo.PERFIL;
+    END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerSexo]
+AS	
+BEGIN	
+SELECT	
+SEXO_ID,
+SEXO_NOMB
+FROM dbo.SEXO;
+END;	
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [spObtenerTipoPago]
+AS
+BEGIN
+SELECT
+TIPO_PAGO_ID,
+TIPO_PAGO_NOMB,
+TIPO_PAGO_DESC
+FROM dbo.TIPO_PAGOS;
+
+END;
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec spRegistrarAlumno
+CREATE PROCEDURE [spRegistrarAlumno]
+    @Nombre NVARCHAR(30) ,
+    @Paterno NVARCHAR(30) ,
+    @Materno NVARCHAR(30) ,
+    @Nacimiento DATE ,
+    @SexoId INT ,
+    @FechaRegistro SMALLDATETIME ,
+    @Correo NVARCHAR(MAX) ,
+    @Promedio DECIMAL ,
+    @Matricula NVARCHAR(30) ,
+    @EtapaId INT ,
+    @PerfilId INT ,
+    @Password NVARCHAR(50)
+AS
+    BEGIN
+        INSERT  dbo.ALUMNO
+                ( ALUM_ID ,
+                  ALUM_NOMB ,
+                  ALUM_APAT ,
+                  ALUM_AMAT ,
+                  ALUM_FNAC ,
+                  ALUM_SEXO_ID ,
+                  ALUM_FREG ,
+                  ALUM_MAIL ,
+                  ALUM_PRGR ,
+                  ALUM_MATR ,
+                  ALUM_EXPS_ID ,
+                  ALUM_ETAP_ID ,
+                  ALUM_PERF_ID ,
+                  ALUM_PASS
+                )
+        VALUES  ( ( SELECT  ISNULL(MAX(ALUM_ID) + 1, 1)
+                    FROM    dbo.ALUMNO
+                  ) , -- ALUM_ID - int
+                  @Nombre , -- ALUM_NOMB - nvarchar(30)
+                  @Paterno , -- ALUM_APAT - nvarchar(30)
+                  @Materno , -- ALUM_AMAT - nvarchar(30)
+                  @Nacimiento , -- ALUM_FNAC - date
+                  @SexoId , -- ALUM_SEXO_ID - int
+                  @FechaRegistro , -- ALUM_FREG - date
+                  @Correo , -- ALUM_MAIL - nvarchar(max)
+                  @Promedio , -- ALUM_PRGR - decimal
+                  @Matricula , -- ALUM_MATR - nvarchar(30)
+                  NULL , -- ALUM_EXPS_ID - int
+                  @EtapaId , -- ALUM_ETAP_ID - int
+                  @PerfilId , -- ALUM_PERF_ID - int
+                  @Password  -- ALUM_PASS - nvarchar(50)
+                );
+    END;
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [ALUMNO](
+	[ALUM_ID] [int] NOT NULL,
+	[ALUM_NOMB] [nvarchar](30) NOT NULL,
+	[ALUM_APAT] [nvarchar](30) NOT NULL,
+	[ALUM_AMAT] [nvarchar](30) NULL,
+	[ALUM_FNAC] [date] NOT NULL,
+	[ALUM_SEXO_ID] [int] NOT NULL,
+	[ALUM_FREG] [date] NULL,
+	[ALUM_MAIL] [nvarchar](max) NULL,
+	[ALUM_PRGR] [decimal](5, 2) NULL,
+	[ALUM_MATR] [nvarchar](30) NULL,
+	[ALUM_EXPS_ID] [int] NULL,
+	[ALUM_ETAP_ID] [int] NULL,
+	[ALUM_PERF_ID] [int] NULL,
+	[ALUM_PASS] [nvarchar](50) NULL,
+ CONSTRAINT [PK_ALUMNO] PRIMARY KEY CLUSTERED 
+(
+	[ALUM_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [DOCUMENTOS](
+	[DOCS_ID] [int] NOT NULL,
+	[DOCS_ALUM_ID] [int] NOT NULL,
+	[DOCS_NOMB] [nvarchar](50) NOT NULL,
+	[DOCS_TIPO] [nvarchar](30) NOT NULL,
+	[DOCS_APRO] [bit] NOT NULL,
+	[DOCS_FECH_ALTA] [date] NOT NULL,
+ CONSTRAINT [PK_DOCUMENTOS] PRIMARY KEY CLUSTERED 
+(
+	[DOCS_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [ETAPAS](
+	[ETAP_ID] [int] NOT NULL,
+	[ETAP_NOMB] [nvarchar](50) NOT NULL,
+	[ETAP_DESC] [nvarchar](max) NULL,
+ CONSTRAINT [PK_ETAPAS] PRIMARY KEY CLUSTERED 
+(
+	[ETAP_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [EXAMEN](
+	[EXAM_ID] [int] NOT NULL,
+	[EXAM_ALUM_ID] [int] NOT NULL,
+	[EXAM_RESP_UNO] [nvarchar](max) NOT NULL,
+	[EXAM_RESP_DOS] [decimal](12, 2) NOT NULL,
+	[EXAM_RESP_TRES] [bit] NOT NULL,
+	[EXAM_RESP_CUAT] [datetime] NOT NULL,
+	[EXAM_FECH_APLI] [date] NOT NULL,
+	[EXAM_CALI] [decimal](5, 2) NOT NULL,
+	[EXAM_APRO] [bit] NOT NULL,
+ CONSTRAINT [PK_EXAMEN] PRIMARY KEY CLUSTERED 
+(
+	[EXAM_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [EXAMEN_PSICOMETRICO](
+	[EXPS_ID] [int] NOT NULL,
+	[EXPS_RESP_UNO] [int] NOT NULL,
+	[EXPS_RESP_DOS] [int] NOT NULL,
+	[EXPS_RESP_TRES] [int] NOT NULL,
+	[EXPS_RESP_CUAT] [int] NOT NULL,
+	[EXPS_FECH_APLI] [date] NOT NULL,
+	[EXPS_ESTA] [bit] NOT NULL,
+ CONSTRAINT [PK_EXAMEN_PSICOMETRICO] PRIMARY KEY CLUSTERED 
+(
+	[EXPS_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [PAGOS](
+	[PAGO_ID] [int] NOT NULL,
+	[PAGO_ALUM_ID] [int] NOT NULL,
+	[PAGO_FECH] [date] NOT NULL,
+	[PAGO_CANT] [decimal](10, 2) NOT NULL,
+	[PAGO_DESC] [nvarchar](max) NOT NULL,
+	[PAGO_TIPO_PAGO_ID] [int] NOT NULL,
+ CONSTRAINT [PK_PAGOS] PRIMARY KEY CLUSTERED 
+(
+	[PAGO_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [PERFIL](
+	[PERF_ID] [int] NOT NULL,
+	[PERF_NOMB] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_PERFIL] PRIMARY KEY CLUSTERED 
+(
+	[PERF_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [SEXO](
+	[SEXO_ID] [int] NOT NULL,
+	[SEXO_NOMB] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_SEXO] PRIMARY KEY CLUSTERED 
+(
+	[SEXO_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [TIPO_PAGOS](
+	[TIPO_PAGO_ID] [int] NOT NULL,
+	[TIPO_PAGO_NOMB] [nvarchar](50) NOT NULL,
+	[TIPO_PAGO_DESC] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_TIPO_PAGOS] PRIMARY KEY CLUSTERED 
+(
+	[TIPO_PAGO_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- exec vMostrarAlumno
+CREATE VIEW [vMostrarAlumno]
+AS
+ SELECT  ALUM_ID ,
+                ALUM_NOMB ,
+                ALUM_APAT ,
+                ALUM_AMAT ,
+                ALUM_FNAC ,
+                ALUM_SEXO_ID ,
+                SEXO_ID ,
+                SEXO_NOMB ,
+                ALUM_FREG ,
+                ALUM_MAIL ,
+                ALUM_PRGR ,
+                ALUM_MATR ,
+                ISNULL(DOCS_ID, 0) DOCS_ID ,
+                ISNULL(DOCS_ALUM_ID, 0) DOCS_ALUM_ID ,
+                ISNULL(DOCS_NOMB, 'Cargar Doc') DOCS_NOMB ,
+                ISNULL(DOCS_TIPO, '') DOCS_TIPO ,
+                ISNULL(DOCS_APRO, 0) DOCS_APRO ,
+                ISNULL(DOCS_FECH_ALTA, '01/01/1900') DOCS_FECH_ALTA ,
+                ISNULL(ALUM_EXPS_ID, 0) ALUM_EXPS_ID ,
+                ISNULL(EXPS_ID, 0) EXPS_ID ,
+                ISNULL(EXPS_RESP_UNO, 0) EXPS_RESP_UNO ,
+                ISNULL(EXPS_RESP_DOS, 0) EXPS_RESP_DOS ,
+                ISNULL(EXPS_RESP_TRES, 0) EXPS_RESP_TRES ,
+                ISNULL(EXPS_RESP_CUAT, 0) EXPS_RESP_CUAT ,
+                ISNULL(EXPS_FECH_APLI, '01/01/1900') EXPS_FECH_APLI ,
+                ISNULL(EXPS_ESTA, 0) EXPS_ESTA ,
+                ALUM_ETAP_ID ,
+                ETAP_ID ,
+                ETAP_NOMB ,
+                ETAP_DESC ,
+                ISNULL(EXAM_ID, 0) EXAM_ID ,
+                ISNULL(EXAM_ALUM_ID, 0) EXAM_ALUM_ID ,
+                ISNULL(EXAM_RESP_UNO, '') EXAM_RESP_UNO ,
+                ISNULL(EXAM_RESP_DOS, 0) EXAM_RESP_DOS ,
+                ISNULL(EXAM_RESP_TRES, 0) EXAM_RESP_TRES ,
+                ISNULL(EXAM_RESP_CUAT, '01/01/1900') EXAM_RESP_CUAT ,
+                ISNULL(EXAM_FECH_APLI, '01/01/1900') EXAM_FECH_APLI ,
+                ISNULL(EXAM_CALI, 0) EXAM_CALI ,
+                ISNULL(EXAM_APRO, 0) EXAM_APRO ,
+                ISNULL(PAGO_ID, 0) PAGO_ID ,
+                ISNULL(PAGO_ALUM_ID, 0) PAGO_ALUM_ID ,
+                ISNULL(PAGO_FECH, '01/01/1900') PAGO_FECH ,
+                ISNULL(PAGO_CANT, 0) PAGO_CANT ,
+                ISNULL(PAGO_DESC, '') PAGO_DESC ,
+                ISNULL(PAGO_TIPO_PAGO_ID, 0) PAGO_TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_ID, 0) TIPO_PAGO_ID ,
+                ISNULL(TIPO_PAGO_NOMB, 'Ingresa Pago') TIPO_PAGO_NOMB ,
+                ISNULL(TIPO_PAGO_DESC, '') TIPO_PAGO_DESC ,
+                ALUM_PERF_ID ,
+                PERF_ID ,
+                PERF_NOMB ,
+                ALUM_PASS
+        FROM    dbo.ALUMNO
+                INNER JOIN dbo.SEXO ON SEXO.SEXO_ID = ALUMNO.ALUM_SEXO_ID
+                LEFT JOIN dbo.EXAMEN_PSICOMETRICO ON EXAMEN_PSICOMETRICO.EXPS_ID = ALUMNO.ALUM_EXPS_ID
+                INNER JOIN dbo.ETAPAS ON ETAPAS.ETAP_ID = ALUMNO.ALUM_ETAP_ID
+                INNER JOIN dbo.PERFIL ON PERFIL.PERF_ID = ALUMNO.ALUM_PERF_ID
+                LEFT JOIN dbo.DOCUMENTOS ON DOCUMENTOS.DOCS_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.EXAMEN ON EXAMEN.EXAM_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.PAGOS ON PAGOS.PAGO_ALUM_ID = ALUMNO.ALUM_ID
+                LEFT JOIN dbo.TIPO_PAGOS ON TIPO_PAGOS.TIPO_PAGO_ID = PAGOS.PAGO_TIPO_PAGO_ID
+        
+ 
+GO
+ALTER TABLE [ALUMNO]  WITH CHECK ADD  CONSTRAINT [FK_ALUMNO_ETAPAS] FOREIGN KEY([ALUM_ETAP_ID])
+REFERENCES [ETAPAS] ([ETAP_ID])
+GO
+ALTER TABLE [ALUMNO] CHECK CONSTRAINT [FK_ALUMNO_ETAPAS]
+GO
+ALTER TABLE [ALUMNO]  WITH CHECK ADD  CONSTRAINT [FK_ALUMNO_EXAMEN_PSICOMETRICO] FOREIGN KEY([ALUM_EXPS_ID])
+REFERENCES [EXAMEN_PSICOMETRICO] ([EXPS_ID])
+GO
+ALTER TABLE [ALUMNO] CHECK CONSTRAINT [FK_ALUMNO_EXAMEN_PSICOMETRICO]
+GO
+ALTER TABLE [ALUMNO]  WITH CHECK ADD  CONSTRAINT [FK_ALUMNO_PERFIL] FOREIGN KEY([ALUM_PERF_ID])
+REFERENCES [PERFIL] ([PERF_ID])
+GO
+ALTER TABLE [ALUMNO] CHECK CONSTRAINT [FK_ALUMNO_PERFIL]
+GO
+ALTER TABLE [ALUMNO]  WITH CHECK ADD  CONSTRAINT [FK_ALUMNO_SEXO] FOREIGN KEY([ALUM_SEXO_ID])
+REFERENCES [SEXO] ([SEXO_ID])
+GO
+ALTER TABLE [ALUMNO] CHECK CONSTRAINT [FK_ALUMNO_SEXO]
+GO
+ALTER TABLE [DOCUMENTOS]  WITH CHECK ADD  CONSTRAINT [FK_DOCUMENTOS_ALUMNO] FOREIGN KEY([DOCS_ALUM_ID])
+REFERENCES [ALUMNO] ([ALUM_ID])
+GO
+ALTER TABLE [DOCUMENTOS] CHECK CONSTRAINT [FK_DOCUMENTOS_ALUMNO]
+GO
+ALTER TABLE [EXAMEN]  WITH CHECK ADD  CONSTRAINT [FK_EXAMEN_ALUMNO] FOREIGN KEY([EXAM_ALUM_ID])
+REFERENCES [ALUMNO] ([ALUM_ID])
+GO
+ALTER TABLE [EXAMEN] CHECK CONSTRAINT [FK_EXAMEN_ALUMNO]
+GO
+ALTER TABLE [PAGOS]  WITH CHECK ADD  CONSTRAINT [FK_PAGOS_ALUMNO] FOREIGN KEY([PAGO_ALUM_ID])
+REFERENCES [ALUMNO] ([ALUM_ID])
+GO
+ALTER TABLE [PAGOS] CHECK CONSTRAINT [FK_PAGOS_ALUMNO]
+GO
+ALTER TABLE [PAGOS]  WITH CHECK ADD  CONSTRAINT [FK_PAGOS_TIPO_PAGOS] FOREIGN KEY([PAGO_TIPO_PAGO_ID])
+REFERENCES [TIPO_PAGOS] ([TIPO_PAGO_ID])
+GO
+ALTER TABLE [PAGOS] CHECK CONSTRAINT [FK_PAGOS_TIPO_PAGOS]
+GO
+ALTER DATABASE [Escuela] SET  READ_WRITE 
+GO
