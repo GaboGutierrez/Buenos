@@ -24,11 +24,7 @@ namespace Gabo.Escuela.Business
                 ent.Paterno = dr["ALUM_APAT"].ToString();//
                 ent.Materno = dr["ALUM_AMAT"].ToString();//
                 ent.Nacimiento = Convert.ToDateTime(dr["ALUM_FNAC"]);
-<<<<<<< HEAD
-                ent.fnacimiento = ent.Nacimiento.ToString("dd/MM/yyyy");
-=======
                 ent.fNacimiento = ent.Nacimiento.ToString("dd/MM/yyyy");
->>>>>>> origin/master
                 ent.SexoId = Convert.ToInt32(dr["ALUM_SEXO_ID"]);
                 ent.Sexo.Id = Convert.ToInt32(dr["SEXO_ID"]);
                 ent.Sexo.Nombre = dr["SEXO_NOMB"].ToString();//
