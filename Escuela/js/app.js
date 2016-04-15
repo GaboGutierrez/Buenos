@@ -82,7 +82,7 @@
                         case 3: {
                             tabla += ' <td><label>' + this.ExamPsico.fAplicacionEP + ' Aprobado' + '</label></td>';
                             if (this.Documento.Aprobado) {
-                                tabla += ' <td><label>' + this.Documento.FechaAplicacion + '' + this.Documento.Nombre + ' ' + this.Documento.Tipo + '</label></a></td>';
+                                tabla += ' <td><label>' + this.Documento.fAlta + ' ' + this.Documento.Nombre + ' ' + this.Documento.Tipo + '</label></a></td>';
                                 tabla += ' <td><a data-toggle="modal" data-target="#modPagos">Realizar Pago</a></td>';
                                 tabla += ' <td></td>';
                                 tabla += ' <td><label>Recepción de Documentos</label></td>';
@@ -95,11 +95,18 @@
                             break;
                         }
                         case 4: {
-                            tabla += ' <td>[Examen Psicométrico]</td>';
-                            tabla += ' <td>[Documentos]</td>';
-                            tabla += ' <td>[Pagos]</td>';
-                            tabla += ' <td>[Examen Conocimientos]</td>';
-                            tabla += ' <td>[Etapa Actual]</td>';
+                            tabla += ' <td><label>' + this.ExamPsico.fAplicacionEP + ' Aprobado' + '</label></td>';
+                            tabla += ' <td><label>' + this.Documento.fAlta + ' ' + this.Documento.Nombre + ' ' + this.Documento.Tipo + '</label></a></td>';
+                            if (this.Pago.AlumnoId != 0) {
+                                tabla += ' <td><label>'+ this.Pago. +'</label></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td><label>Recepción de Documentos</label></td>';
+                            } else {
+
+                                tabla += ' <td></td>';
+                                tabla += ' <td></td>';
+                                tabla += ' <td><label>Falta que entregue documentos</label></td>';
+                            }
                             break;
                         }
                         case 5: {

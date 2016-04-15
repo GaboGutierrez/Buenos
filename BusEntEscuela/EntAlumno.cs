@@ -42,7 +42,6 @@ namespace Gabo.Escuela.Business.Entidad
         public string Matricula { get; set; }
         public int DocumentoId { get; set; }
         private EntDocumentos documento;
-
         public EntDocumentos Documento
         {
             get
@@ -110,11 +109,8 @@ namespace Gabo.Escuela.Business.Entidad
             }
         }
         public string Password { get; set; }
-
-
         public int PagoId { get; set; }
         private EntPago pago;
-
         public EntPago Pago
         {
             get
@@ -130,11 +126,8 @@ namespace Gabo.Escuela.Business.Entidad
                 pago = value;
             }
         }
-
-
         public int ExamenId { get; set; }
         private EntExamen examen;
-
         public EntExamen Examen
         {
             get
@@ -194,6 +187,7 @@ namespace Gabo.Escuela.Business.Entidad
         public int Id { get; set; }
         public int AlumnoId { get; set; }
         public DateTime FechaPago { get; set; }
+        public string fPago { get; set; }
         public double Cantidad { get; set; }
         public string Descripcion { get; set; }
         public int TipoPagoId { get; set; }
@@ -229,6 +223,7 @@ namespace Gabo.Escuela.Business.Entidad
         public bool RespTres { get; set; }
         public DateTime RespCuatro { get; set; }
         public DateTime FechaAplicacion { get; set; }
+        public string fAplicacionEX { get; set; }
         public double Calificacion { get; set; }
         public bool Aprobado { get; set; }
     }

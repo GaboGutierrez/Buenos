@@ -39,6 +39,7 @@ namespace Gabo.Escuela.Business
                 ent.Documento.Tipo = dr["DOCS_TIPO"].ToString();//
                 ent.Documento.Aprobado = Convert.ToBoolean(dr["DOCS_APRO"]);//
                 ent.Documento.FechaAlta = Convert.ToDateTime(dr["DOCS_FECH_ALTA"]);
+                ent.Documento.fAlta = ent.Documento.FechaAlta.ToString();
                 ent.ExamenPsicoId = Convert.ToInt32(dr["ALUM_EXPS_ID"]);
                 ent.ExamPsico.Id = Convert.ToInt32(dr["EXPS_ID"]);
                 ent.ExamPsico.RespUno = Convert.ToInt32(dr["EXPS_RESP_UNO"]);
@@ -59,11 +60,13 @@ namespace Gabo.Escuela.Business
                 ent.Examen.RespTres = Convert.ToBoolean(dr["EXAM_RESP_TRES"]);
                 ent.Examen.RespCuatro = Convert.ToDateTime(dr["EXAM_RESP_CUAT"]);
                 ent.Examen.FechaAplicacion = Convert.ToDateTime(dr["EXAM_FECH_APLI"]);
+                ent.Examen.fAplicacionEX = ent.Examen.FechaAplicacion.ToString();
                 ent.Examen.Calificacion = Convert.ToDouble(dr["EXAM_CALI"]);//
                 ent.Examen.Aprobado = Convert.ToBoolean(dr["EXAM_APRO"]);//
                 ent.Pago.Id = Convert.ToInt32(dr["PAGO_ID"]);
                 ent.Pago.AlumnoId = Convert.ToInt32(dr["PAGO_ALUM_ID"]);
                 ent.Pago.FechaPago = Convert.ToDateTime(dr["PAGO_FECH"]);//
+                ent.Pago.fPago = ent.Pago.FechaPago.ToString();
                 ent.Pago.Cantidad = Convert.ToDouble(dr["PAGO_CANT"]);//
                 ent.Pago.Descripcion = dr["PAGO_DESC"].ToString();
                 ent.Pago.TipoPago.Id = Convert.ToInt32(dr["PAGO_TIPO_PAGO_ID"]);
